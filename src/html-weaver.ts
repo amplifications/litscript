@@ -2,7 +2,7 @@
  * ---
  * { "useMath": true }
  * ---
- * # HTML Weaver
+ * # HTML Weaver blah
  * 
  * When HTML is selected as an output format, the weaver class needs to do more
  * work:
@@ -73,6 +73,9 @@ export class HtmlWeaver extends wv.Weaver {
      * dictionary.
      */
     public codeFiles: bnd.CodeFiles
+
+
+
     /**
      * ## Overriding the Main Method
      * 
@@ -174,10 +177,34 @@ export class HtmlWeaver extends wv.Weaver {
             this.scriptsAndStyles(outputFile.relTargetPath, fm.visualizers, 
                 visualizerCalls) : 
             [ "", "" ]
+
+        // MXM Customization
+        // weave-in HM Signature lines
+        
+        
+        if (outputFile.sourceKind == tr.SourceKind.typescript ) {
+            let theSrcFile = outputFile.source  as ts.SourceFile
+            let theSourceCode = theSrcFile.getFullText()
+            let hmSigLines = theSourceCode.split("\n")
+                                .map(line=>line.trim())
+                                .filter(line=> line.match(/^\s*\*\s*HMS\:\s*`.*`\s*$/i))
+                                .map(line=> line.substring(line.indexOf("`")+1,line.lastIndexOf("`")))
+
+            
+            contents = hmSigLines.length > 0 
+                        ? `<H1>Summary  </H1>` +
+                          "The following Hindley Milner type signatures have been extracted from the source code" +
+                          "<pre><code>" + hmSigLines.join("\n") + "</code></pre>" + contents 
+                        : contents
+        }
+
+
+
         /**
          * Front matter, TOC, page contents, file path, and scripts are then 
          * passed to the templating engine which constucts the outputted web page. 
          */
+        
         cfg.getTemplate().generate(fm, this.toc, contents, styles, scripts,
             outputFile.relTargetPath, outputFile.fullTargetPath)
         this.addTocEntry(outputFile.relTargetPath)
@@ -225,7 +252,7 @@ export class HtmlWeaver extends wv.Weaver {
         /**
          * Before rendering the markdown we must concatenate the blocks together.
          */
-        let markdown = [...blocks].map(b => b.contents).join("")
+        let markdown = [...blocks].map(b => b.contents).join("\n")
         let contents = this.mdit.render(markdown)
         /** 
          * Finally we restore the default renderer and return the result. 

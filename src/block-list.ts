@@ -5,9 +5,30 @@
  * fragments. This module defines the data structure that stores these blocks.
  * The type of the block is defined as an enumeration.
  */
+
+
+/** ### Represents a book.
+ * 
+ * blah blah blah blah blah blah blah
+ * 
+ * hms: `function :: a -> b -> ... -> c`
+ * 
+ * 
+ */
+
+const pi = 3.14
+
+/**
+ * # Next Blah
+ * 
+ * Source files are split into blocks that contain either documentation or code
+ * fragments. This module defines the data structure that stores these blocks.
+ * The type of the block is defined as an enumeration.
+ */
 export enum BlockKind { markdown, code }
 /**
  * We add a header and a footer to the code blocks when they are complete. The
+ * hms:  `function3 :: a -> b -> ... -> z`
  * header and footer used in HTML output is defined below.
  */
 export const htmlHeader = '\n<pre class="syntaxhighlight"><code>'
@@ -17,7 +38,8 @@ export const htmlFooter = '\n</code></pre>\n'
  * [Iterable interface][]. The nodes of the list contain the kind specifier, 
  * contents string (which is initialized after the block is ready), and 
  * reference to the next block.
- * 
+* hms:  `function4 :: a -> b -> ... -> z`
+* 
  * [singly linked lists]: https://en.wikipedia.org/wiki/Linked_list
  * [Iterable interface]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols
  */

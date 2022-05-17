@@ -16,6 +16,8 @@ import * as cfg from '../config'
 //#endregion
 
 export class TsTranslator extends bt.Translator {
+
+    public haskellSigs : string[] = [];
     /**
      * Regions can be nested, thus, a stack of open regions is maintained in an
      * array. 
@@ -50,7 +52,11 @@ export class TsTranslator extends bt.Translator {
             if (start > prevEnd)
                 this.parseTrivia(src.slice(prevEnd, start))
             if (ts.isJSDoc(node)) {
-                let inner = <string>(<ts.JSDoc>node).comment
+                let inner = !!(<string>(<ts.JSDoc>node).comment)
+                                ? <string>(<ts.JSDoc>node).comment
+                                : ""
+
+                
                 this.splitMdFile(inner, srcFile.fileName)
             }
             else {
@@ -60,6 +66,8 @@ export class TsTranslator extends bt.Translator {
             }
             prevEnd = node.getEnd()
         }
+
+                                
     }
     /**
      * ## Updating Dependency Graph
