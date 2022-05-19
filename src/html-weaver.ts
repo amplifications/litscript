@@ -198,6 +198,21 @@ export class HtmlWeaver extends wv.Weaver {
                         : contents
         }
 
+        // Removing decorative lines characters  from H1, H2, H3 sections
+        //const rex = /.*(\<h[1-3]\>[^-=]*)([-=]{2,})(.*\<\/h[1-3]\>)/gim
+        // const rex = /(<h[1-4] id=\\".*?)([-=]{2,})(<\/h[1-4]>)/gm;
+        // const rex = /(H[1-4] id=.*\s)([-=*_۰\.]{2,})(<\/h[1-4]>)/gi;
+        const rex = /(H[1-4] id=.*\s)((.)\3{5,})(<\/h[1-4]>)/gi;
+
+        // var find0 = contents.match(/(H[1-4] id=.*\s)([-=*_]{2,})(<\/h[1-4]>)/gi)
+        var find = contents.match(rex)
+
+
+
+        contents = contents.replace(rex,"$1 $4")
+
+        
+        
 
 
         /**
