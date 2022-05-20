@@ -110,6 +110,15 @@ export class Region {
      */
     static add(name: string, start: bl.BlockList, definedInFile: string,
         relOutputFile: string, mode: Visibility): Region {
+
+        // mxm-change
+        // the region name contains any character repeated more than 10 times, it is IGNORED 
+        // This is to ensure we can provide section seperator characters on the region line (which cannot be unique)
+        
+        const rex = /(.)\1{10,}/gm
+
+        name = name.match(rex) ? "" : name;
+
         let region = this.regions[name]
         if (region)
             throw Error(`Region '${name}' is already defined in file ${region.definedInFile}.

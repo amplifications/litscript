@@ -6,7 +6,9 @@
  * The type of the block is defined as an enumeration.
  */
 
+// #region -c -------------------------------------------------------------------
 
+// #endregion
 /** ### Represents a book.
  * 
  * blah blah blah blah blah blah blah
