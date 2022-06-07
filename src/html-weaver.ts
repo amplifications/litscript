@@ -185,15 +185,17 @@ export class HtmlWeaver extends wv.Weaver {
         if (outputFile.sourceKind == tr.SourceKind.typescript ) {
             let theSrcFile = outputFile.source  as ts.SourceFile
             let theSourceCode = theSrcFile.getFullText()
+
+            
             let hmSigLines = theSourceCode.split("\n")
                                 .map(line=>line.trim())
-                                .filter(line=> line.match(/^\s*\*\s*HMS\:\s*`.*`\s*$/i))
+                                .filter(line=> line.match(/^\s*\*\s*@haskell\s*\`.*\`/im))
                                 .map(line=> line.substring(line.indexOf("`")+1,line.lastIndexOf("`")))
 
             
             contents = hmSigLines.length > 0 
-                        ? `<H1>Summary  </H1>` +
-                          "The following Hindley Milner type signatures have been extracted from the source code" +
+                        ? `<H1>API  </H1>` +
+                          "The following Hindley Milner signatures have been extracted from this source file" +
                           "<pre><code>" + hmSigLines.join("\n") + "</code></pre>" + contents 
                         : contents
         }
